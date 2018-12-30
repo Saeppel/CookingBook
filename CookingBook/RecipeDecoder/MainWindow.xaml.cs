@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecipeDecoder.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,22 @@ namespace RecipeDecoder
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel _model;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _model = new MainViewModel();
+
+            _model.Path = @"E:\C#Programme\CookingBook\Docs\263-264.docx";
+
+            DataContext = _model;
+        }
+
+        private void BtOpen_Click(object sender, RoutedEventArgs e)
+        {
+            _model.Read();
         }
     }
 }
