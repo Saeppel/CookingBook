@@ -4,9 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookingBook"
+        xmlns:controls="clr-namespace:CookingBook.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Saeppels Kochbuch" Height="800" Width="1200">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         
+        <Ribbon x:Name="RibbonWin" 
+                Grid.ColumnSpan="2">
+            <RibbonTab Header="Datenaustausch">
+                <RibbonGroup Width="Auto">
+                    <RibbonButton x:Name="importData" 
+                                  Label="Import" />
+                    <RibbonButton x:Name="exportData" 
+                                  Label="Export" />
+                    <RibbonButton x:Name="publicList" 
+                                  Label="Öffentliche Liste" />
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+
+        <controls:MainView Grid.Row="1"/>
     </Grid>
 </Window>
