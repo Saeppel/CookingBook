@@ -96,7 +96,7 @@ namespace CookingLib.Container
         {
             var now = DateTime.Now;
 
-            var tempID = string.Format("{0}{1}{2}{4}{5}[6}[7}", now.Year, now.Month, now.Date, now.Hour, now.Minute, now.Second, now.Millisecond);
+            var tempID = string.Format("{0}{1}{2}{4}{5}{6}", now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
 
             long id = Convert.ToInt64(tempID);
             recipe.ID = id;
@@ -183,6 +183,64 @@ namespace CookingLib.Container
                     id += 1;
                 }
             }            
+
+            return id;
+        }
+
+        public long GetNewHashTagID()
+        {
+            long id = 1;
+
+            if (Recipes != null && Recipes.Count > 0)
+            {
+                var found = false;
+
+                foreach (var recipe in Recipes)
+                {
+                    foreach (var hashTag in recipe.HashTags)
+                    {
+                        if (hashTag.ID > id)
+                        {
+                            found = true;
+                            id = hashTag.ID;
+                        }
+                    }
+                }
+
+                if (found)
+                {
+                    id += 1;
+                }
+            }
+
+            return id;
+        }
+
+        public long GetNewUtilityID()
+        {
+            long id = 1;
+
+            if (Recipes != null && Recipes.Count > 0)
+            {
+                var found = false;
+
+                foreach (var recipe in Recipes)
+                {
+                    foreach (var utility in recipe.Utilities)
+                    {
+                        if (utility.ID > id)
+                        {
+                            found = true;
+                            id = utility.ID;
+                        }
+                    }
+                }
+
+                if (found)
+                {
+                    id += 1;
+                }
+            }
 
             return id;
         }

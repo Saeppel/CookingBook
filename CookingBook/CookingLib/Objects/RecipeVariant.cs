@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace CookingLib.Objects
 {
-    [XmlRootAttribute("RecipeVariant", Namespace = "", IsNullable = false)]
+    [XmlRootAttribute("RecipeVariant", IsNullable = false)]
     public class RecipeVariant : ObjectBase
     {
         #region Constructor
@@ -17,6 +17,7 @@ namespace CookingLib.Objects
         public RecipeVariant()
         {
             Ingredients = new ObservableCollection<Ingredient>();
+            Preparation = string.Empty;
         }
 
         #endregion
@@ -68,6 +69,66 @@ namespace CookingLib.Objects
         }
         private int _workingTime;
 
+        [XmlElement("PreparingTime")]
+        public int PreparingTime
+        {
+            get
+            {
+                return _preparingTime;
+            }
+            set
+            {
+                _preparingTime = value;
+                OnPropertyChanged("PreparingTime");
+            }
+        }
+        private int _preparingTime;
+
+        [XmlElement("BakingTime")]
+        public int BakingTime
+        {
+            get
+            {
+                return _bakingTime;
+            }
+            set
+            {
+                _bakingTime = value;
+                OnPropertyChanged("BakingTime");
+            }
+        }
+        private int _bakingTime;
+
+        [XmlElement("RestTime")]
+        public int RestTime
+        {
+            get
+            {
+                return _restTime;
+            }
+            set
+            {
+                _restTime = value;
+                OnPropertyChanged("RestTime");
+            }
+        }
+        private int _restTime;
+
+        [XmlElement("Temperature")]
+        public int Temperature
+        {
+            get
+            {
+                return _temperature;
+            }
+            set
+            {
+                _temperature = value;
+                OnPropertyChanged("Temperature");
+            }
+        }
+        private int _temperature;
+
         [XmlArray(ElementName = "Ingredients")]
         [XmlArrayItem("Ingredient", Type = typeof(Ingredient))]
         public ObservableCollection<Ingredient> Ingredients
@@ -87,6 +148,11 @@ namespace CookingLib.Objects
         #endregion
 
         #region Methods
+
+        public override string ToString()
+        {
+            return $"Variant: {Name}, Preparation: {Preparation}, WorkingTime: {WorkingTime}, PreparingTime: {PreparingTime}, BakingTime: {BakingTime}, RestTime: {RestTime}, Temperature: {Temperature}";
+        }
 
         public void AddIngredient(Ingredient ingredient)
         {

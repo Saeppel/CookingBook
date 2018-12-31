@@ -14,11 +14,11 @@ namespace CookingLib.Helper
 
         private static FTPHelper _instance;
 
-        private string _adress = "FTP://saeppelnet.ddns.net/Kochbuch/";
+        private static string _adress = "FTP://saeppelnet.ddns.net/CookingBook";
 
-        private string _user = "KochbuchMaster";
+        private static string _user = string.Empty;
 
-        private string _password = "CookingIsAwesome";
+        private static string _password = string.Empty;
 
         private DirectoryInfo _localDirectory = new DirectoryInfo(Path.Combine(System.Environment.CurrentDirectory, "FTP"));
 
@@ -26,8 +26,11 @@ namespace CookingLib.Helper
 
         #region Constructor
 
-        public FTPHelper()
+        public FTPHelper(string user, string password)
         {
+            _user = user;
+            _password = password;
+
             if (!_localDirectory.Exists)
             {
                 _localDirectory.Create();
@@ -42,13 +45,36 @@ namespace CookingLib.Helper
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new FTPHelper();
-                }
-
                 return _instance;
             }
+        }
+
+        public static bool HasInstance
+        {
+            get
+            {
+                return _instance != null;
+            }
+        }
+
+        public static void CreateInstance(string user, string password)
+        {
+            if (!HasInstance)
+            {
+                var validLogin = CheckLogin(user, password);
+
+                if (validLogin)
+                {
+                    _instance = new FTPHelper(user, password);
+                }
+            }
+        }
+
+        public static void KillInstance()
+        {
+            _instance = null;
+            _user = null;
+            _password = null;
         }
 
         #endregion
@@ -155,22 +181,15 @@ namespace CookingLib.Helper
             return exists;
         }
 
-        public bool CreateDirectory(string folder)
+        public bool CreateDirectory()
         {
             bool created = false;
 
             try
             {
-                FtpWebRequest ftpWebRequest = (FtpWebRequest)FtpWebRequest.Create(new Uri(Path.Combine(_adress, folder)));
-                ftpWebRequest.UseBinary = true;
-                ftpWebRequest.Credentials = new NetworkCredential(_user, _password);
-                ftpWebRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
-                ftpWebRequest.Proxy = null;
-                ftpWebRequest.KeepAlive = false;
-                ftpWebRequest.UsePassive = false;
-                ftpWebRequest.GetResponse();
+                var request = SendWebRequest(_adress, WebRequestMethods.Ftp.MakeDirectory);
 
-                created = true;
+                created = request != null;
             }
             catch (Exception ex)
             {
@@ -186,7 +205,7 @@ namespace CookingLib.Helper
 
             try
             {
-
+                var request = SendWebRequest(directory, WebRequestMethods.Ftp.ListDirectory);
             }
             catch (Exception ex)
             {
@@ -224,9 +243,13 @@ namespace CookingLib.Helper
         {
             bool delete = true;
 
+            file = Path.Combine(_adress, file);
+
             try
             {
-                delete = true;
+                var request = SendWebRequest(file, WebRequestMethods.Ftp.DeleteFile);
+
+                delete = request != null;
             }
             catch (Exception ex)
             {
@@ -243,6 +266,52 @@ namespace CookingLib.Helper
             DeleteFiles(folder);
 
             return removed;
+        }
+
+        public static bool CheckLogin(string user, string password)
+        {
+            var success = false;
+
+            try
+            {
+                var request = SendWebRequest(_adress, WebRequestMethods.Ftp.ListDirectory, user, password);
+
+                success = request != null;
+            }
+            catch (Exception ex)
+            {
+                success = false;
+            }
+
+            return success;
+        }
+
+        private static WebResponse SendWebRequest(string path, string request, string user = null, string password = null)
+        {
+            WebResponse response = null;
+
+            try
+            {
+                var uri = new Uri(path);
+
+                user = user ?? _user;
+                password = password ?? _password;
+
+                FtpWebRequest ftpWebRequest = (FtpWebRequest)FtpWebRequest.Create(uri);
+                ftpWebRequest.UseBinary = true;
+                ftpWebRequest.Credentials = new NetworkCredential(user, password);
+                ftpWebRequest.Method = request;
+                ftpWebRequest.Proxy = null;
+                ftpWebRequest.KeepAlive = false;
+                ftpWebRequest.UsePassive = false;
+                response = ftpWebRequest.GetResponse();
+            }
+            catch (Exception ex)
+            {
+                response = null;
+            }
+
+            return response;
         }
 
         #endregion

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CookingBook"
         xmlns:controls="clr-namespace:CookingBook.Controls"
         mc:Ignorable="d"
-        Title="Saeppels Kochbuch" Height="800" Width="1200">
+        Title="Saeppels Kochbuch" Height="1000" Width="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -17,12 +17,21 @@
                 Grid.ColumnSpan="2">
             <RibbonTab Header="Datenaustausch">
                 <RibbonGroup Width="Auto">
-                    <RibbonButton x:Name="importData" 
+                    <RibbonButton x:Name="login" 
+                                  Click="Login_Click"
+                                  Label="Anmelden" />
+                    <RibbonButton x:Name="importData"
+                                  Click="ImportData_Click"
                                   Label="Import" />
                     <RibbonButton x:Name="exportData" 
+                                  Click="ExportData_Click"
                                   Label="Export" />
                     <RibbonButton x:Name="publicList" 
+                                  Click="PublicList_Click"
                                   Label="Öffentliche Liste" />
+                    <RibbonButton x:Name="categories" 
+                                  Click="Categories_Click"
+                                  Label="Kategorien" />
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>

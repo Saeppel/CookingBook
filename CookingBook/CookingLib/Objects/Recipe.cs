@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace CookingLib.Objects
 {
-    [XmlRootAttribute("Recipe", Namespace = "", IsNullable = false)]
+    [XmlRootAttribute("Recipe", IsNullable = false)]
     public class Recipe : ObjectBase
     {
         #region Constructor
@@ -67,7 +67,7 @@ namespace CookingLib.Objects
         private string _description;
 
         [XmlElement("Category")]
-        public string Category
+        public Category Category
         {
             get
             {
@@ -79,7 +79,7 @@ namespace CookingLib.Objects
                 OnPropertyChanged("Category");
             }
         }
-        private string _category;
+        private Category _category;
 
         [XmlArray(ElementName = "Variants")]
         [XmlArrayItem("Variant", Type = typeof(RecipeVariant))]
@@ -96,6 +96,22 @@ namespace CookingLib.Objects
             }
         }
         private ObservableCollection<RecipeVariant> _variants;
+
+        [XmlArray(ElementName = "Utilities")]
+        [XmlArrayItem("Utility", Type = typeof(Utility))]
+        public ObservableCollection<Utility> Utilities
+        {
+            get
+            {
+                return _utilities;
+            }
+            set
+            {
+                _utilities = value;
+                OnPropertyChanged("Utilities");
+            }
+        }
+        private ObservableCollection<Utility> _utilities;
 
         [XmlArray(ElementName = "HashTags")]
         [XmlArrayItem("HashTag", Type = typeof(HashTag))]
@@ -117,8 +133,13 @@ namespace CookingLib.Objects
 
         #region Methods
 
-       public void AddHashTag(HashTag hashTag)
+        public override string ToString()
         {
+            return $"Recipe: {Name}, Number: {Number}, Description: {Description}, Category: {Category}";
+        }
+
+        public void AddHashTag(HashTag hashTag)
+       {
             if (HashTags == null)
             {
                 HashTags = new ObservableCollection<HashTag>();
@@ -136,9 +157,37 @@ namespace CookingLib.Objects
                 HashTags = new ObservableCollection<HashTag>();
             }
 
+            hashTag.ID = RecipeContainer.Instance.GetNewHashTagID();
+
             HashTags.Remove(hashTag);
 
             OnPropertyChanged("HashTags");
+        }
+
+        public void AddUtility(Utility utility)
+        {
+            if (Utilities == null)
+            {
+                Utilities = new ObservableCollection<Utility>();
+            }
+
+            utility.ID = RecipeContainer.Instance.GetNewUtilityID();
+
+            Utilities.Add(utility);
+
+            OnPropertyChanged("Utilities");
+        }
+
+        public void RemoveUtility(Utility utility)
+        {
+            if (Utilities == null)
+            {
+                Utilities = new ObservableCollection<Utility>();
+            }
+
+            Utilities.Remove(utility);
+
+            OnPropertyChanged("Utilities");
         }
 
         public bool Match(List<string> searchValues)
@@ -149,10 +198,10 @@ namespace CookingLib.Objects
             {
                 foreach (var val in searchValues.Select(x => x.ToLower()))
                 {
-                    if (retVal == false &&
-                        (Name.ToLower().Contains(val) ||
-                        Variants.Any(x => x.Preparation.ToLower().Contains(val)) ||
-                        Variants.Any(x => x.Name.ToLower().Contains(val))))
+                    if (retVal == false 
+                        && (Name.ToLower().Contains(val) 
+                            || Variants.Any(x => x.Preparation.ToLower().Contains(val)) 
+                            || Variants.Any(x => x.Name.ToLower().Contains(val))))
                     {
                         retVal = true;
                     }

@@ -60,7 +60,8 @@ namespace CookingBook.Controls
                         var view = new RecipeDetailView();
                         var viewModel = new RecipeVariantViewModel()
                         {
-                            Variant = variant
+                            Variant = variant,
+                            Recipe = model.SelectedRecipe
                         };
 
                         view.DataContext = viewModel;
@@ -115,6 +116,10 @@ namespace CookingBook.Controls
                         variant.Name = first.Name;
                         variant.Preparation = first.Preparation;
                         variant.WorkingTime = first.WorkingTime;
+                        variant.BakingTime = first.BakingTime;
+                        variant.PreparingTime = first.PreparingTime;
+                        variant.RestTime = first.RestTime;
+                        variant.Temperature = first.Temperature;
                     }
                 }
 
@@ -123,7 +128,8 @@ namespace CookingBook.Controls
                 var view = new RecipeDetailView();
                 var viewModel = new RecipeVariantViewModel()
                 {
-                    Variant = variant
+                    Variant = variant,
+                    Recipe = model.SelectedRecipe
                 };
 
                 view.DataContext = viewModel;

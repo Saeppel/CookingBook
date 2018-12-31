@@ -2,7 +2,7 @@
 
 namespace CookingLib.Objects
 {
-    [XmlRootAttribute("Ingredient", Namespace = "", IsNullable = false)]
+    [XmlRootAttribute("Ingredient", IsNullable = false)]
     public class Ingredient: ObjectBase
     {
         #region Constructor
@@ -75,6 +75,15 @@ namespace CookingLib.Objects
             }
         }
         private string _cookingType;
+
+        #endregion
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return $"Name: {Name}, Amount: {Amount}, Unit: {Unit}, CookingType: {CookingType}";
+        }
 
         #endregion
     }

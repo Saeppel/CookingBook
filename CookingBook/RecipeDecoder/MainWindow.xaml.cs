@@ -29,7 +29,7 @@ namespace RecipeDecoder
 
             _model = new MainViewModel();
 
-            _model.Path = @"E:\C#Programme\CookingBook\Docs\263-264.docx";
+            _model.Path = @"E:\C#Programme\CookingBook\Docs\263-264.txt";
 
             DataContext = _model;
         }

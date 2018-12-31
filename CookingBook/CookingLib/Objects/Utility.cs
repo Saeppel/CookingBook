@@ -7,30 +7,35 @@ using System.Xml.Serialization;
 
 namespace CookingLib.Objects
 {
-    [XmlRootAttribute("HashTag", IsNullable = false)]
-    public class HashTag : ObjectBase
+    [XmlRootAttribute("Utility", IsNullable = false)]
+    public class Utility : ObjectBase
     {
-        public HashTag()
+        public Utility()
         {
-            Text = "#";
+        }
+
+        public Utility(long id, string name)
+        {
+            ID = id;
+            Name = name;
         }
 
         #region Properties
 
-        [XmlElement("Text")]
-        public string Text
+        [XmlElement("Name")]
+        public string Name
         {
             get
             {
-                return _text ?? string.Empty;
+                return _name;
             }
             set
             {
-                _text = value;
+                _name = value;
                 OnPropertyChanged("Name");
             }
         }
-        private string _text;
+        private string _name;
 
         #endregion
 
@@ -38,7 +43,7 @@ namespace CookingLib.Objects
 
         public override string ToString()
         {
-            return $"HashTag: {Text}";
+            return $"Name: {Name}";
         }
 
         #endregion

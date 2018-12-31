@@ -25,7 +25,7 @@ namespace RecipeDecoder.ViewModels
         }
         private string _path;
 
-        public DocXReader Reader
+        public RecipeReader Reader
         {
             get;
             private set;
@@ -38,8 +38,8 @@ namespace RecipeDecoder.ViewModels
 
         public void Read()
         {
-            Reader = new DocXReader(Path);
-            Reader.ReadDocument();
+            Reader = new RecipeReader(Path);
+            Reader.Read();
         }
 
         #endregion

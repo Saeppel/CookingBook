@@ -36,6 +36,8 @@ namespace CookingBook.Controls
 
         #endregion
 
+        #region Ingredienants
+
         private void menuAddIngredient_Click(object sender, RoutedEventArgs e)
         {
             var model = DataContext as RecipeVariantViewModel;
@@ -89,5 +91,65 @@ namespace CookingBook.Controls
             var grid = (DataGrid)sender;
             grid.CommitEdit(DataGridEditingUnit.Cell, true);
         }
+
+        #endregion
+
+        #region Utilities
+
+        private void MenuAddUtility_Click(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as RecipeVariantViewModel;
+
+            if (model != null)
+            {
+                var Utility = new Utility();
+
+                model.Recipe.AddUtility(Utility);
+            }
+        }
+
+        private void MenuRemoveUtility_Click(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as RecipeVariantViewModel;
+
+            var item = dtUtilities.CurrentItem != null ? dtUtilities.CurrentItem as Utility : null;
+
+            if (model != null && item != null)
+            {
+                model.Recipe.RemoveUtility(item);
+            }
+        }
+
+        private void DtUtilities_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void DtUtilities_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var model = DataContext as RecipeVariantViewModel;
+
+            if (e.Key == Key.Down && model != null)
+            {
+                var item = dtUtilities.CurrentItem != null ? dtUtilities.CurrentItem as Utility : null;
+
+                if (item != null && item == model.Recipe.Utilities.LastOrDefault())
+                {
+                    var Utility = new Utility();
+
+                    model.Recipe.AddUtility(Utility);
+
+                    dtUtilities.CurrentItem = Utility;
+                }
+            }
+        }
+
+        private void DtUtilities_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            grid.CommitEdit(DataGridEditingUnit.Cell, true);
+        }
+
+        #endregion
     }
 }

@@ -11,6 +11,20 @@ namespace CookingBook.ViewModels
 
         #region Properties
 
+        public Recipe Recipe
+        {
+            get
+            {
+                return _recipe;
+            }
+            set
+            {
+                _recipe = value;
+                OnPropertyChanged("Recipe");
+            }
+        }
+        private Recipe _recipe;
+
         public RecipeVariant Variant
         {
             get
@@ -38,6 +52,20 @@ namespace CookingBook.ViewModels
             }
         }
         private Ingredient _selectedIngredient;
+
+        public Utility SelectedUtility
+        {
+            get
+            {
+                return _selectedUtility;
+            }
+            set
+            {
+                _selectedUtility = value;
+                OnPropertyChanged("SelectedUtility");
+            }
+        }
+        private Utility _selectedUtility;
 
         #endregion
     }

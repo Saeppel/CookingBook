@@ -48,6 +48,7 @@
     <Compile Include="Objects\ObjectBase.cs" />
     <Compile Include="Objects\Recipe.cs" />
     <Compile Include="Objects\RecipeVariant.cs" />
+    <Compile Include="Objects\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
