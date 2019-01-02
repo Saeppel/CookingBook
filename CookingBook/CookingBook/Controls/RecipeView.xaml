@@ -1,13 +1,14 @@
 ﻿<UserControl x:Class="CookingBook.Controls.RecipeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CookingBook.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="500">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="700"
+             d:DesignWidth="700"
+             mc:Ignorable="d">
     <UserControl.Resources>
-        
+
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0,0,0" />
             <Setter Property="VerticalAlignment" Value="Top" />
@@ -48,113 +49,127 @@
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Name"
+        <TextBlock Grid.Row="0"
                    Grid.Column="0"
-                   Grid.Row="0" />
-        <TextBox Text="{Binding SelectedRecipe.Name, 
-                                Mode=TwoWay, 
-                                UpdateSourceTrigger=PropertyChanged}"
+                   Text="Name" />
+        <TextBox Grid.Row="0"
                  Grid.Column="1"
                  Width="250"
-                 Grid.Row="0"
-                 VerticalAlignment="Top" />
+                 VerticalAlignment="Top"
+                 Text="{Binding SelectedRecipe.Name,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}" />
 
-        <TextBlock Text="Nummer"
+        <TextBlock Grid.Row="1"
                    Grid.Column="0"
-                   Grid.Row="1" />
-        <TextBox Text="{Binding SelectedRecipe.Number, 
-                                Mode=TwoWay, 
-                                UpdateSourceTrigger=PropertyChanged}"
+                   Text="Nummer" />
+        <TextBox Grid.Row="1"
                  Grid.Column="1"
                  Width="250"
-                 Grid.Row="1"
-                 VerticalAlignment="Top" />
+                 VerticalAlignment="Top"
+                 Text="{Binding SelectedRecipe.Number,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}" />
 
-        <TextBlock Text="Beschreibung"
+        <TextBlock Grid.Row="2"
                    Grid.Column="0"
-                   Grid.Row="2" />
+                   Text="Beschreibung" />
 
-        <TextBox Text="{Binding SelectedRecipe.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Width="250"
+        <TextBox Grid.Row="2"
                  Grid.Column="1"
-                 Grid.Row="2"
-                 VerticalAlignment="Top" />
-        
-        <TextBlock Text="Kategorie"
-                   Grid.Column="0"
-                   Grid.Row="3" />
+                 Width="250"
+                 VerticalAlignment="Top"
+                 Text="{Binding SelectedRecipe.Description,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}" />
 
-        <ComboBox SelectedItem="{Binding SelectedRecipe.Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Width="250"
+        <TextBlock Grid.Row="3"
+                   Grid.Column="0"
+                   Text="Kategorie" />
+
+        <ComboBox Grid.Row="3"
                   Grid.Column="1"
-                  Grid.Row="3"
-                  ItemsSource="{Binding Categories, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                  VerticalAlignment="Top" />
+                  Width="250"
+                  VerticalAlignment="Top"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="ID"
+                  ItemsSource="{Binding Categories,
+                                        Mode=OneWay,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValue="{Binding SelectedRecipe.CategoryID,
+                                         Mode=TwoWay,
+                                         UpdateSourceTrigger=PropertyChanged}" />
 
         <TabControl x:Name="variantTabControl"
+                    Grid.Row="4"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Grid.Row="4">
+                    Grid.ColumnSpan="2">
             <TabItem Header="Test">
                 <local:RecipeDetailView />
             </TabItem>
         </TabControl>
 
-        <GroupBox Header="Hashtags"
+        <GroupBox Grid.Row="5"
+                  Grid.ColumnSpan="2"
                   MaxHeight="125"
-                  Grid.Row="5"
-                  Grid.ColumnSpan="2">
+                  Header="Hashtags">
             <DataGrid x:Name="dtIngredients"
-                      Grid.Row="2"       
-                      Unloaded="dtIngredients_Unloaded"
-                      ItemsSource="{Binding SelectedRecipe.HashTags, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                      SelectedItem="{Binding SelectedHashTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                        
+                      Grid.Row="2"
+                      AutoGenerateColumns="False"
+                      Background="White"
+                      BorderBrush="#5D000000"
                       CanUserAddRows="False"
+                      ItemsSource="{Binding SelectedRecipe.HashTags,
+                                            Mode=OneWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedHashTag,
+                                             Mode=TwoWay,
+                                             UpdateSourceTrigger=PropertyChanged}"
                       SelectionUnit="Cell"
-                      Background="White"                      
-                      AutoGenerateColumns="False" 
-                      BorderBrush="#5D000000">
+                      Unloaded="dtIngredients_Unloaded">
                 <DataGrid.ContextMenu>
-                    <ContextMenu >
-                        <MenuItem x:Name="menuAddHashTag" 
+                    <ContextMenu>
+                        <MenuItem x:Name="menuAddHashTag"
                                   Click="menuAddHashTag_Click"
-                                          Header="Neu" />
-                        <MenuItem x:Name="menuRemoveHashTag" 
+                                  Header="Neu" />
+                        <MenuItem x:Name="menuRemoveHashTag"
                                   Click="menuRemoveHashTag_Click"
-                                          Header="Löschen" />
+                                  Header="Löschen" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Hashtag" 
-                                        Width="*"
-                                        Binding="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Text,
+                                                          Mode=TwoWay,
+                                                          UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Hashtag" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        
+
         <Button x:Name="btSave"
-                Width="90"
-                Content="Übernehmen"
                 Grid.Row="6"
+                Grid.Column="0"
+                Width="90"
                 Background="WhiteSmoke"
-                Grid.Column="0" 
-                Click="btSave_Click" />
+                Click="btSave_Click"
+                Content="Übernehmen" />
 
         <Button x:Name="btNewVariant"
-                Width="100"
-                Content="Variante anlegen"
-                Background="WhiteSmoke"
                 Grid.Row="6"
-                Grid.Column="1" 
-                Click="btNewVariant_Click" />
+                Grid.Column="1"
+                Width="100"
+                Background="WhiteSmoke"
+                Click="btNewVariant_Click"
+                Content="Variante anlegen" />
 
         <Button x:Name="btRemoveVariant"
-                Width="100"
-                Content="Variante löschen"
-                Background="WhiteSmoke"
                 Grid.Row="6"
-                Grid.Column="1" 
+                Grid.Column="1"
+                Width="100"
+                Margin="120,5,0,0"
+                Background="WhiteSmoke"
                 Click="btRemoveVariant_Click"
-                Margin="120,5,0,0" />
+                Content="Variante löschen" />
     </Grid>
 </UserControl>

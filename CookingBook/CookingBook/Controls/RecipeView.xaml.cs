@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace CookingBook.Controls
 {
@@ -67,11 +68,15 @@ namespace CookingBook.Controls
                         view.DataContext = viewModel;
 
                         var tabItem = new TabItem();
-                        tabItem.Header = string.Format("Variante - {0}", variant.Name);
+                        var binding = new Binding("Name");
+                        binding.Source = variant;
+                        BindingOperations.SetBinding(tabItem, TabItem.HeaderProperty, binding);
 
                         tabItem.Content = view;
 
                         variantTabControl.Items.Add(tabItem);
+
+                        view.CreateIngredientViews();
                     }
 
                     if (variantTabControl.Items.Count > 0)
@@ -88,7 +93,10 @@ namespace CookingBook.Controls
 
             if (model != null)
             {
-                var variant = new RecipeVariant();
+                var variant = new RecipeVariant()
+                {
+                    Name = $"Variante {model.SelectedRecipe.Variants.Count + 1}"
+                };
 
                 if (model.SelectedRecipe.Variants.Count > 0)
                 {
@@ -101,16 +109,27 @@ namespace CookingBook.Controls
                     {
                         var first = model.SelectedRecipe.Variants.FirstOrDefault();
 
-                        foreach (var ingredient in first.Ingredients)
+                        foreach (var group in first.IngredientGroups)
                         {
-                            var newIngredient = new Ingredient()
+                            var ingredientGroup = new IngredientGroup()
                             {
-                                Amount = ingredient.Amount,
-                                Name = ingredient.Name,
-                                Unit = ingredient.Unit
+                                Name = group.Name
                             };
 
-                            variant.AddIngredient(newIngredient);
+                            foreach (var ingredient in group.Ingredients)
+                            {
+                                var newIngredient = new Ingredient()
+                                {
+                                    Amount = ingredient.Amount,
+                                    Name = ingredient.Name,
+                                    Unit = ingredient.Unit,
+                                    CookingType = ingredient.CookingType
+                                };
+
+                                ingredientGroup.AddIngredient(newIngredient);
+                            }
+
+                            variant.AddIngredientGroup(ingredientGroup);
                         }
 
                         variant.Name = first.Name;
@@ -121,6 +140,15 @@ namespace CookingBook.Controls
                         variant.RestTime = first.RestTime;
                         variant.Temperature = first.Temperature;
                     }
+                }
+                else
+                {
+                    var group = new IngredientGroup()
+                    {
+                        Name = "Zutaten"
+                    };
+
+                    variant.AddIngredientGroup(group);
                 }
 
                 model.SelectedRecipe.Variants.Add(variant);
@@ -135,16 +163,16 @@ namespace CookingBook.Controls
                 view.DataContext = viewModel;
 
                 var tabItem = new TabItem();
-                tabItem.Header = string.Format("Variante - {0}", variant.Name);
+                var binding = new Binding("Name");
+                binding.Source = variant;
+                BindingOperations.SetBinding(tabItem, TabItem.HeaderProperty, binding);
                 tabItem.Content = view;
 
                 variantTabControl.Items.Add(tabItem);
+
+                view.CreateIngredientViews();
             }
         }
-
-        #endregion
-
-        #region Methods
 
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
@@ -154,11 +182,11 @@ namespace CookingBook.Controls
             {
                 if (model.SelectedRecipe.ID == 0)
                 {
-                    RecipeContainer.Instance.AddNewRecipe(model.SelectedRecipe);
+                    RecipeContainer.Instance.AddNewEntity(model.SelectedRecipe);
                 }
                 else
                 {
-                    Recipe.Save(model.SelectedRecipe, model.SelectedRecipe.ID);
+                    RecipeContainer.Instance.UpdateEntity(model.SelectedRecipe);
                 }
 
                 model.LoadData();

@@ -47,6 +47,7 @@ namespace RecipeDecoder.Helper
 
                 Recipe currentRecipe = null;
                 RecipeVariant currentVariant = null;
+                IngredientGroup currentGroup = null;
 
                 var recipeMode = false;
                 var workingMode = false;
@@ -87,6 +88,9 @@ namespace RecipeDecoder.Helper
                             currentVariant = new RecipeVariant();
                             currentVariant.Name = currentRecipe.Name;
 
+                            currentGroup = new IngredientGroup();
+                            currentVariant.AddIngredientGroup(currentGroup);
+
                             currentRecipe.Variants.Add(currentVariant);
                             Recipes.Add(currentRecipe);
                             workingMode = false;
@@ -109,7 +113,7 @@ namespace RecipeDecoder.Helper
 
                         foreach (var ingredient in ingredients)
                         {
-                            currentVariant.AddIngredient(ingredient);
+                            currentGroup.AddIngredient(ingredient);
                         }
                     }
                     else if (workingMode)

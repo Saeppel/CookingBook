@@ -39,20 +39,6 @@ namespace CookingBook.ViewModels
         }
         private RecipeVariant _variant;
 
-        public Ingredient SelectedIngredient
-        {
-            get
-            {
-                return _selectedIngredient;
-            }
-            set
-            {
-                _selectedIngredient = value;
-                OnPropertyChanged("SelectedIngredient");
-            }
-        }
-        private Ingredient _selectedIngredient;
-
         public Utility SelectedUtility
         {
             get

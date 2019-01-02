@@ -66,20 +66,20 @@ namespace CookingLib.Objects
         }
         private string _description;
 
-        [XmlElement("Category")]
-        public Category Category
+        [XmlElement("CategoryID")]
+        public long CategoryID
         {
             get
             {
-                return _category;
+                return _categoryID;
             }
             set
             {
-                _category = value;
-                OnPropertyChanged("Category");
+                _categoryID = value;
+                OnPropertyChanged("CategoryID");
             }
         }
-        private Category _category;
+        private long _categoryID;
 
         [XmlArray(ElementName = "Variants")]
         [XmlArrayItem("Variant", Type = typeof(RecipeVariant))]
@@ -135,7 +135,7 @@ namespace CookingLib.Objects
 
         public override string ToString()
         {
-            return $"Recipe: {Name}, Number: {Number}, Description: {Description}, Category: {Category}";
+            return $"Recipe: {Name}, Number: {Number}, Description: {Description}, CategoryID: {CategoryID}";
         }
 
         public void AddHashTag(HashTag hashTag)

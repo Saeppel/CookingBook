@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace CookingBook.Controls
@@ -32,64 +33,6 @@ namespace CookingBook.Controls
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
-        }
-
-        #endregion
-
-        #region Ingredienants
-
-        private void menuAddIngredient_Click(object sender, RoutedEventArgs e)
-        {
-            var model = DataContext as RecipeVariantViewModel;
-
-            if (model != null)
-            {
-                var ingredient = new Ingredient();
-
-                model.Variant.AddIngredient(ingredient);
-            }
-        }
-
-        private void menuRemoveIngredient_Click(object sender, RoutedEventArgs e)
-        {
-            var model = DataContext as RecipeVariantViewModel;
-
-            var item = dtIngredients.CurrentItem != null ? dtIngredients.CurrentItem as Ingredient : null;
-
-            if (model != null && item != null)
-            {
-                model.Variant.RemoveIngredient(item);
-            }
-        }
-
-        private void dtIngredients_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-        }
-
-        private void dtIngredients_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            var model = DataContext as RecipeVariantViewModel;
-
-            if (e.Key == Key.Down && model != null)
-            {
-                var item = dtIngredients.CurrentItem != null ? dtIngredients.CurrentItem as Ingredient : null;
-
-                if (item != null && item == model.Variant.Ingredients.LastOrDefault())
-                {
-                    var ingredient = new Ingredient();
-
-                    model.Variant.AddIngredient(ingredient);
-
-                    dtIngredients.CurrentItem = ingredient;
-                }                
-            }
-        }
-
-        private void dtIngredients_Unloaded(object sender, RoutedEventArgs e)
-        {
-            var grid = (DataGrid)sender;
-            grid.CommitEdit(DataGridEditingUnit.Cell, true);
         }
 
         #endregion
@@ -151,5 +94,86 @@ namespace CookingBook.Controls
         }
 
         #endregion
+
+        #region Methods
+
+        public void CreateIngredientViews()
+        {
+            var model = DataContext as RecipeVariantViewModel;
+
+            if (model != null)
+            {
+                ingredientTabControl.Items.Clear();
+
+                if (model.Variant != null)
+                {
+                    foreach (var group in model.Variant.IngredientGroups)
+                    {
+                        var view = new IngredientView();
+                        var viewModel = new IngredientGroupViewModel()
+                        {
+                            Variant = model.Variant,
+                            Group = group,
+                        };
+
+                        view.DataContext = viewModel;
+
+                        var tabItem = new TabItem();
+                        var binding = new Binding("Name");
+                        binding.Source = group;
+                        BindingOperations.SetBinding(tabItem, TabItem.HeaderProperty, binding);
+
+                        tabItem.Content = view;
+
+                        ingredientTabControl.Items.Add(tabItem);
+                    }
+
+                    if (ingredientTabControl.Items.Count > 0)
+                    {
+                        ingredientTabControl.SelectedItem = ingredientTabControl.Items[0];
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        private void BtNewGroup_Click(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as RecipeVariantViewModel;
+
+            if (model != null)
+            {
+                if (model.Variant != null)
+                {
+                    var group = new IngredientGroup()
+                    {
+                        Name = $"Gruppe {model.Variant.IngredientGroups.Count + 1}"
+                    };
+
+                    var view = new IngredientView();
+                    var viewModel = new IngredientGroupViewModel()
+                    {
+                        Variant = model.Variant,
+                        Group = group,
+                    };
+
+                    model.Variant.IngredientGroups.Add(group);
+
+                    view.DataContext = viewModel;
+
+                    var tabItem = new TabItem();
+                    var binding = new Binding("Name");
+                    binding.Source = group;
+                    BindingOperations.SetBinding(tabItem, TabItem.HeaderProperty, binding);
+
+                    tabItem.Content = view;
+
+                    ingredientTabControl.Items.Add(tabItem);
+
+                    ingredientTabControl.SelectedItem = ingredientTabControl.Items[ingredientTabControl.Items.Count - 1];
+                }
+            }
+        }
     }
 }

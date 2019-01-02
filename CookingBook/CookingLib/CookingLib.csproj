@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,17 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Container\CategoryContainer.cs" />
+    <Compile Include="Container\ContainerBase.cs" />
     <Compile Include="Container\RecipeContainer.cs" />
+    <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\FTPHelper.cs" />
+    <Compile Include="Interfaces\IReportCaller.cs" />
     <Compile Include="Objects\Category.cs" />
     <Compile Include="Objects\HashTag.cs" />
     <Compile Include="Objects\Ingredient.cs" />
+    <Compile Include="Objects\IngredientGroup.cs" />
     <Compile Include="Objects\ObjectBase.cs" />
     <Compile Include="Objects\Recipe.cs" />
     <Compile Include="Objects\RecipeVariant.cs" />
     <Compile Include="Objects\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportData\ReportData.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

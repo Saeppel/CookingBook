@@ -14,6 +14,10 @@ namespace CookingBook.ViewModels
 
         public RecipeBookViewModel()
         {
+            _categories = CategoryContainer.Instance.Categories;
+
+            CategoryContainer.Instance.Updated += Instance_Updated;
+
             LoadData();
         }
 
@@ -21,13 +25,14 @@ namespace CookingBook.ViewModels
 
         #region Properties
 
-        public List<string> Categories
+        public List<Category> Categories
         {
             get
             {
-                return RecipeContainer.Instance.Categories;
+                return _categories;
             }
         }
+        private List<Category> _categories;
 
         public ObservableCollection<Recipe> Recipes
         {
@@ -102,6 +107,16 @@ namespace CookingBook.ViewModels
             }
         }
         private string _hashTagValues;
+
+        #endregion
+
+        #region Events
+
+        private void Instance_Updated(object sender, System.EventArgs e)
+        {
+            _categories = CategoryContainer.Instance.Categories;
+            OnPropertyChanged("Categories");
+        }
 
         #endregion
 

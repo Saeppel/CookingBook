@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CookingBook"
         xmlns:controls="clr-namespace:CookingBook.Controls"
         mc:Ignorable="d"
-        Title="Saeppels Kochbuch" Height="1000" Width="1200">
+        Title="Saeppels Kochbuch" Height="900" Width="1100">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookingLib.Objects;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace CookingLib.Helper
 
         private static FTPHelper _instance;
 
-        private static string _adress = "FTP://saeppelnet.ddns.net/CookingBook";
+        private static string _address = ConfigHelper.Instance.FTPServer;
 
         private static string _user = string.Empty;
 
@@ -41,7 +42,7 @@ namespace CookingLib.Helper
 
         #region Properties
 
-        public FTPHelper Instance
+        public static FTPHelper Instance
         {
             get
             {
@@ -66,6 +67,7 @@ namespace CookingLib.Helper
                 if (validLogin)
                 {
                     _instance = new FTPHelper(user, password);
+                    _instance.CreateDirectories();
                 }
             }
         }
@@ -102,11 +104,11 @@ namespace CookingLib.Helper
 
             if (string.IsNullOrEmpty(targetDirectory))
             {
-                file = Path.Combine(_adress, targetFile);
+                file = Path.Combine(_address, targetFile);
             }
             else
             {
-                file = Path.Combine(_adress, targetDirectory, targetFile);
+                file = Path.Combine(_address, targetDirectory, targetFile);
             }
 
             try
@@ -140,11 +142,11 @@ namespace CookingLib.Helper
 
             if (string.IsNullOrEmpty(targetDirectory))
             {
-                file = Path.Combine(_adress, targetFile);
+                file = Path.Combine(_address, targetFile);
             }
             else
             {
-                file = Path.Combine(_adress, targetDirectory, targetFile);
+                file = Path.Combine(_address, targetDirectory, targetFile);
             }
 
             try
@@ -181,15 +183,16 @@ namespace CookingLib.Helper
             return exists;
         }
 
-        public bool CreateDirectory()
+        public bool CreateDirectories()
         {
             bool created = false;
 
             try
             {
-                var request = SendWebRequest(_adress, WebRequestMethods.Ftp.MakeDirectory);
+                var requestRecipe = SendWebRequest(Path.Combine(_address, nameof(Recipe)), WebRequestMethods.Ftp.MakeDirectory);
+                var requestCategory = SendWebRequest(Path.Combine(_address, nameof(Category)), WebRequestMethods.Ftp.MakeDirectory);
 
-                created = request != null;
+                created = requestRecipe != null && requestCategory != null;
             }
             catch (Exception ex)
             {
@@ -243,7 +246,7 @@ namespace CookingLib.Helper
         {
             bool delete = true;
 
-            file = Path.Combine(_adress, file);
+            file = Path.Combine(_address, file);
 
             try
             {
@@ -274,7 +277,7 @@ namespace CookingLib.Helper
 
             try
             {
-                var request = SendWebRequest(_adress, WebRequestMethods.Ftp.ListDirectory, user, password);
+                var request = SendWebRequest(_address, WebRequestMethods.Ftp.ListDirectory, user, password);
 
                 success = request != null;
             }

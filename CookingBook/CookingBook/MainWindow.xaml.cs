@@ -1,4 +1,6 @@
-﻿using CookingLib.Helper;
+﻿using CookingBook.Controls;
+using CookingBook.ViewModels;
+using CookingLib.Helper;
 using System.Windows;
 
 namespace CookingBook
@@ -21,8 +23,18 @@ namespace CookingBook
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            string user = "Julia";
-            string password = "JuliaKannKochen123";
+            string user = ConfigHelper.Instance.Username;
+            string password = ConfigHelper.Instance.Password;
+
+            if (string.IsNullOrWhiteSpace(user)
+                || string.IsNullOrWhiteSpace(password))
+            {
+                var wnd = new LoginWindow();
+                wnd.ShowDialog();
+
+                user = ConfigHelper.Instance.Username;
+                password = ConfigHelper.Instance.Password;
+            }
 
             if (authorized)
             {
@@ -61,7 +73,13 @@ namespace CookingBook
 
         private void Categories_Click(object sender, RoutedEventArgs e)
         {
+            var viewModel = new CategoryViewModel();
+            var wnd = new CategoryWindow()
+            {
+                DataContext = viewModel
+            };
 
+            wnd.ShowDialog();
         }
     }
 }

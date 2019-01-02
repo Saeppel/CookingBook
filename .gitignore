@@ -24,3 +24,5 @@
 /CookingBook/.vs/CookingBook/v15/*.suo
 .vs
 /CookingBookApp/.vs
+/CookingBook/Reporter/obj
+/CookingBook/Reporter/bin

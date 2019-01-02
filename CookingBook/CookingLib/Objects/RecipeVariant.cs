@@ -16,7 +16,7 @@ namespace CookingLib.Objects
 
         public RecipeVariant()
         {
-            Ingredients = new ObservableCollection<Ingredient>();
+            IngredientGroups = new ObservableCollection<IngredientGroup>();
             Preparation = string.Empty;
         }
 
@@ -129,21 +129,21 @@ namespace CookingLib.Objects
         }
         private int _temperature;
 
-        [XmlArray(ElementName = "Ingredients")]
-        [XmlArrayItem("Ingredient", Type = typeof(Ingredient))]
-        public ObservableCollection<Ingredient> Ingredients
+        [XmlArray(ElementName = "IngredientGroups")]
+        [XmlArrayItem("IngredientGroup", Type = typeof(IngredientGroup))]
+        public ObservableCollection<IngredientGroup> IngredientGroups
         {
             get
             {
-                return _ingredients;
+                return _ingredientGroups;
             }
             set
             {
-                _ingredients = value;
-                OnPropertyChanged("Ingredients");
+                _ingredientGroups = value;
+                OnPropertyChanged("IngredientGroups");
             }
         }
-        private ObservableCollection<Ingredient> _ingredients;
+        private ObservableCollection<IngredientGroup> _ingredientGroups;
 
         #endregion
 
@@ -154,30 +154,30 @@ namespace CookingLib.Objects
             return $"Variant: {Name}, Preparation: {Preparation}, WorkingTime: {WorkingTime}, PreparingTime: {PreparingTime}, BakingTime: {BakingTime}, RestTime: {RestTime}, Temperature: {Temperature}";
         }
 
-        public void AddIngredient(Ingredient ingredient)
+        public void AddIngredientGroup(IngredientGroup group)
         {
-            if (Ingredients == null)
+            if (IngredientGroups == null)
             {
-                Ingredients = new ObservableCollection<Ingredient>();
+                IngredientGroups = new ObservableCollection<IngredientGroup>();
             }
 
-            ingredient.ID = RecipeContainer.Instance.GetNewIngredientID();
+            group.ID = RecipeContainer.Instance.GetNewIngredientID();
 
-            Ingredients.Add(ingredient);
+            IngredientGroups.Add(group);
 
-            OnPropertyChanged("Ingredients");
+            OnPropertyChanged("IngredientGroups");
         }
 
-        public void RemoveIngredient(Ingredient ingredient)
+        public void RemoveIngredientGroup(IngredientGroup group)
         {
-            if (Ingredients == null)
+            if (IngredientGroups == null)
             {
-                Ingredients = new ObservableCollection<Ingredient>();
+                IngredientGroups = new ObservableCollection<IngredientGroup>();
             }
 
-            Ingredients.Remove(ingredient);
+            IngredientGroups.Remove(group);
 
-            OnPropertyChanged("Ingredients");
+            OnPropertyChanged("IngredientGroups");
         }
 
         #endregion
