@@ -21,7 +21,7 @@ namespace CookingLib.Helper
 
         private static string _password = string.Empty;
 
-        private DirectoryInfo _localDirectory = new DirectoryInfo(Path.Combine(System.Environment.CurrentDirectory, "FTP"));
+        public static DirectoryInfo LocalDirectory = new DirectoryInfo(Path.Combine(System.Environment.CurrentDirectory, "FTP"));
 
         #endregion
 
@@ -32,9 +32,9 @@ namespace CookingLib.Helper
             _user = user;
             _password = password;
 
-            if (!_localDirectory.Exists)
+            if (!LocalDirectory.Exists)
             {
-                _localDirectory.Create();
+                LocalDirectory.Create();
             }
         }
 
@@ -83,11 +83,23 @@ namespace CookingLib.Helper
 
         #region Methods
 
-        public string WriteLocalFile(string content, string fileName)
+        public string WriteLocalFile(string content, string targetDirectory, string fileName)
         {
-            var path = Path.Combine(_localDirectory.FullName, fileName);
+            var directory = Path.Combine(LocalDirectory.FullName, targetDirectory);
 
-            using (StreamWriter writer = new StreamWriter(path, false, Encoding.Default))
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var path = Path.Combine(directory, fileName);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            using (StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8))
             {
                 writer.WriteLine(content);
 
@@ -97,9 +109,8 @@ namespace CookingLib.Helper
             return path;
         }
 
-        public string Download(string targetDirectory, string targetFile)
+        public void Download(string targetDirectory, string targetFile)
         {
-            string content = string.Empty;
             string file = string.Empty;
 
             if (string.IsNullOrEmpty(targetDirectory))
@@ -121,18 +132,17 @@ namespace CookingLib.Helper
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
                 Stream responseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(responseStream);
-                content = reader.ReadToEnd();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                var content = reader.ReadToEnd();
 
                 reader.Close();
                 response.Close();
+
+                WriteLocalFile(content, targetDirectory, targetFile);
             }
             catch (Exception ex)
             {
-                content = null;
             }
-
-            return content;
         }
 
         public bool UploadFile(string sourceFile, string targetDirectory, string targetFile)
@@ -157,7 +167,7 @@ namespace CookingLib.Helper
                 request.Credentials = new NetworkCredential(_user, _password);
 
                 // Copy the contents of the file to the request stream.
-                StreamReader sourceStream = new StreamReader(sourceFile);
+                StreamReader sourceStream = new StreamReader(sourceFile, Encoding.UTF8);
                 byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
                 sourceStream.Close();
                 request.ContentLength = fileContents.Length;
@@ -208,7 +218,27 @@ namespace CookingLib.Helper
 
             try
             {
-                var request = SendWebRequest(directory, WebRequestMethods.Ftp.ListDirectory);
+                var response = SendWebRequest(Path.Combine(_address, directory), WebRequestMethods.Ftp.ListDirectory);
+
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        // Recipe/20181231521042.srf
+                        if (line.Contains("/"))
+                        {
+                            line = line.Split('/').LastOrDefault();
+                        }
+
+                        files.Add(line);
+                    }
+                }
+
+                reader.Close();
             }
             catch (Exception ex)
             {

@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:CookingBook"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="DataGrid">
+            <Setter Property="AlternatingRowBackground" Value="LightBlue" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#5D000000" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserSortColumns" Value="False" />
+        </Style>
     </Application.Resources>
 </Application>

@@ -49,7 +49,7 @@ namespace CookingLib.Objects
 
         #region Methods
 
-        public static T Load<T>(string name)
+        public static T Load<T>(string name, bool isFullPath = false)
         {
             T retVal = default(T);
 
@@ -57,7 +57,9 @@ namespace CookingLib.Objects
 
             try
             {
-                string fileName = Path.Combine(Environment.CurrentDirectory, directory, name);
+                string fileName = isFullPath
+                                  ? name
+                                  : Path.Combine(Environment.CurrentDirectory, directory, name);
                 FileInfo file = new FileInfo(fileName);
 
                 if (file.Exists)

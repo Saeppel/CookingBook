@@ -21,11 +21,6 @@
         <DataGrid x:Name="dtCategories"
                   Grid.Row="0"
                   Grid.ColumnSpan="2"
-                  AutoGenerateColumns="False"
-                  Background="White"
-                  BorderBrush="#5D000000"
-                  CanUserAddRows="False"
-                  CanUserSortColumns="False"
                   ItemsSource="{Binding ClonedCategories,
                                         Mode=OneWay,
                                         UpdateSourceTrigger=PropertyChanged}"

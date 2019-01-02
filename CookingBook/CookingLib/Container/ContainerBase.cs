@@ -126,28 +126,50 @@ namespace CookingLib.Container
             {
                 var directory = new DirectoryInfo(Path.Combine(System.Environment.CurrentDirectory, typeof(T).Name));
 
-                var files = directory.GetFiles("*srf").ToList();
-
                 if (ids != null)
                 {
-                    files = files.Where(x => ids.Any(id => x.Name.Contains(id.ToString()))).ToList();
-                }
+                    var files = directory.GetFiles("*srf").Where(x => ids.Any(id => x.Name.Contains(id.ToString()))).ToList();
 
-                foreach (var file in files)
-                {
-                    FTPHelper.Instance.UploadFile(file.FullName, typeof(T).Name, file.Name);
+                    foreach (var file in files)
+                    {
+                        FTPHelper.Instance.UploadFile(file.FullName, typeof(T).Name, file.Name);
+                    }
                 }
             }
         }
 
-        public void DownloadData(Predicate<T> predicate)
+        public List<T> DownloadData()
         {
-            if (FTPHelper.HasInstance)
-            {
-                var files = FTPHelper.Instance.GetFilesInDirectory(typeof(T).Name);
+            var directory = typeof(T).Name;
+            var data = new List<T>();
 
-                LoadAllEntities();
+            try
+            {
+                if (FTPHelper.HasInstance)
+                {
+                    var files = FTPHelper.Instance.GetFilesInDirectory(directory);
+
+                    foreach (var file in files)
+                    {
+                        FTPHelper.Instance.Download(directory, file);
+                    }
+
+                    var directoryInfo = new DirectoryInfo(Path.Combine(FTPHelper.LocalDirectory.FullName, directory));
+
+                    foreach (var file in directoryInfo.GetFiles("*srf"))
+                    {
+                        var recipe = ObjectBase.Load<T>(file.FullName, true);
+                        data.Add(recipe);
+
+                        File.Delete(file.FullName);
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
+            return data;
         }
 
         #endregion

@@ -35,11 +35,6 @@
         <DataGrid x:Name="dtIngredients"
                   Grid.Row="1"
                   Grid.ColumnSpan="3"
-                  AutoGenerateColumns="False"
-                  Background="White"
-                  BorderBrush="#5D000000"
-                  CanUserAddRows="False"
-                  CanUserSortColumns="False"
                   ItemsSource="{Binding Group.Ingredients,
                                         Mode=OneWay,
                                         UpdateSourceTrigger=PropertyChanged}"

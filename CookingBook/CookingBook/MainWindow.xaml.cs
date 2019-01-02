@@ -16,8 +16,6 @@ namespace CookingBook
         {
             InitializeComponent();
 
-            importData.IsEnabled = authorized;
-            exportData.IsEnabled = authorized;
             publicList.IsEnabled = authorized;
         }
 
@@ -51,24 +49,13 @@ namespace CookingBook
                 ? "Abmelden" 
                 : "Anmelden";
 
-            importData.IsEnabled = authorized;
-            exportData.IsEnabled = authorized;
             publicList.IsEnabled = authorized;
-        }
-
-        private void ImportData_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ExportData_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void PublicList_Click(object sender, RoutedEventArgs e)
         {
-
+            var wnd = new RecipeExchangeList();
+            wnd.ShowDialog();
         }
 
         private void Categories_Click(object sender, RoutedEventArgs e)

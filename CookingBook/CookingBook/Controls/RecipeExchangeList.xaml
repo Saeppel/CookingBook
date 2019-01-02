@@ -5,8 +5,8 @@
         xmlns:local="clr-namespace:CookingBook.Controls"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Öffentliche Liste"
-        d:DesignHeight="400"
-        d:DesignWidth="500"
+        Height="600"
+        Width="700"
         mc:Ignorable="d">
     <Window.Resources>
 
@@ -47,18 +47,12 @@
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Row="0"
+        <DataGrid x:Name="dtLocalRecipes"
+                  Grid.Row="0"
                   Grid.Column="0"
-                  AutoGenerateColumns="False"
-                  Background="White"
-                  BorderBrush="#5D000000"
-                  CanUserAddRows="False"
-                  ItemsSource="{Binding Recipes,
+                  ItemsSource="{Binding LocalRecipes,
                                         Mode=OneWay,
                                         UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedRecipe,
-                                         Mode=TwoWay,
-                                         UpdateSourceTrigger=PropertyChanged}"
                   SelectionUnit="FullRow"
                   Unloaded="DataGrid_Unloaded">
             <DataGrid.Columns>
@@ -70,18 +64,13 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="0"
+        <DataGrid x:Name="dtPublicRecipes"
+                  Grid.Row="0"
                   Grid.Column="2"
                   AutoGenerateColumns="False"
-                  Background="White"
-                  BorderBrush="#5D000000"
-                  CanUserAddRows="False"
-                  ItemsSource="{Binding Recipes,
+                  ItemsSource="{Binding PublicRecipes,
                                         Mode=OneWay,
                                         UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedRecipe,
-                                         Mode=TwoWay,
-                                         UpdateSourceTrigger=PropertyChanged}"
                   SelectionUnit="FullRow"
                   Unloaded="DataGrid_Unloaded">
             <DataGrid.Columns>
@@ -98,21 +87,21 @@
                 Grid.Column="0"
                 Width="100"
                 Height="30"
-                Click="BtUpload_Click"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="WhiteSmoke"
+                Click="BtUpload_Click"
                 Content="Veröffentlichen" />
 
-        <Button x:Name="btDownload"
+        <Button x:Name="btSave"
                 Grid.Row="1"
                 Grid.Column="2"
                 Width="100"
                 Height="30"
-                Click="BtDownload_Click"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="WhiteSmoke"
-                Content="Runterladen" />
+                Click="BtSave_Click"
+                Content="Herunterladen" />
     </Grid>
 </Window>

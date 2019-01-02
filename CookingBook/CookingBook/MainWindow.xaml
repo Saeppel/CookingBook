@@ -20,12 +20,6 @@
                     <RibbonButton x:Name="login" 
                                   Click="Login_Click"
                                   Label="Anmelden" />
-                    <RibbonButton x:Name="importData"
-                                  Click="ImportData_Click"
-                                  Label="Import" />
-                    <RibbonButton x:Name="exportData" 
-                                  Click="ExportData_Click"
-                                  Label="Export" />
                     <RibbonButton x:Name="publicList" 
                                   Click="PublicList_Click"
                                   Label="Öffentliche Liste" />

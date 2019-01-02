@@ -115,10 +115,6 @@
                   Header="Hashtags">
             <DataGrid x:Name="dtIngredients"
                       Grid.Row="2"
-                      AutoGenerateColumns="False"
-                      Background="White"
-                      BorderBrush="#5D000000"
-                      CanUserAddRows="False"
                       ItemsSource="{Binding SelectedRecipe.HashTags,
                                             Mode=OneWay,
                                             UpdateSourceTrigger=PropertyChanged}"

@@ -160,11 +160,6 @@
                 <Grid>
                     <DataGrid x:Name="dtUtilities"
                               Grid.Row="2"
-                              AutoGenerateColumns="False"
-                              Background="White"
-                              BorderBrush="#5D000000"
-                              CanUserAddRows="False"
-                              CanUserSortColumns="False"
                               ItemsSource="{Binding Recipe.Utilities,
                                                     Mode=OneWay,
                                                     UpdateSourceTrigger=PropertyChanged}"
