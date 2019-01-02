@@ -89,7 +89,6 @@
                 Height="30"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Background="WhiteSmoke"
                 Click="BtUpload_Click"
                 Content="Veröffentlichen" />
 
@@ -100,7 +99,6 @@
                 Height="30"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Background="WhiteSmoke"
                 Click="BtSave_Click"
                 Content="Herunterladen" />
     </Grid>

@@ -38,17 +38,17 @@
             this.reportViewer.Location = new System.Drawing.Point(0, 0);
             this.reportViewer.Name = "reportViewer";
             this.reportViewer.ServerReport.BearerToken = null;
-            this.reportViewer.Size = new System.Drawing.Size(1647, 963);
+            this.reportViewer.Size = new System.Drawing.Size(1879, 1351);
             this.reportViewer.TabIndex = 0;
             // 
-            // Form1
+            // ReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1647, 963);
+            this.ClientSize = new System.Drawing.Size(1879, 1351);
             this.Controls.Add(this.reportViewer);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "ReportForm";
+            this.Text = "Druckansicht";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 

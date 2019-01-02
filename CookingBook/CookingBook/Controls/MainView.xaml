@@ -102,7 +102,6 @@
                 Margin="0.5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="WhiteSmoke"
                 Click="btNewRecipe_Click"
                 Content="Neues Rezept" />
 

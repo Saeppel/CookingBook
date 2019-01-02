@@ -1,5 +1,6 @@
 ﻿using CookingLib.Interfaces;
 using CookingLib.Objects;
+using CookingLib.ReportData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Reporter
 {
     public class Reporter : IReportCaller
     {
-        public void ShowReport(Recipe recipe)
+        public void ShowReport(ReportData recipe)
         {
             ReportForm form = new ReportForm();
             form.ShowDialog();

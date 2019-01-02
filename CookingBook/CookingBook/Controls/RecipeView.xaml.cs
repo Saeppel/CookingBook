@@ -1,6 +1,8 @@
-﻿using CookingBook.ViewModels;
+﻿using CookingBook.Helper;
+using CookingBook.ViewModels;
 using CookingLib.Container;
 using CookingLib.Objects;
+using CookingLib.ReportData;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -247,6 +249,24 @@ namespace CookingBook.Controls
         {
             var grid = (DataGrid)sender;
             grid.CommitEdit(DataGridEditingUnit.Cell, true);
+        }
+
+        private void BtPrint_Click(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as RecipeBookViewModel;
+
+            if (model != null && variantTabControl.SelectedItem != null)
+            {
+                var item = variantTabControl.SelectedItem;
+                var view = ((TabItem)item).Content as RecipeDetailView;
+
+                if (view != null && view.ViewModel != null)
+                {
+                    var reportData = new ReportData(model.SelectedRecipe, view.ViewModel.Variant);
+
+                    ReportHelper.CallReport(reportData);
+                }
+            }
         }
     }
 }

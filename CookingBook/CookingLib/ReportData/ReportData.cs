@@ -11,9 +11,10 @@ namespace CookingLib.ReportData
     {
         #region Constructor
 
-        public ReportData(Recipe recipe)
+        public ReportData(Recipe recipe, RecipeVariant variant)
         {
             Recipe = recipe;
+            Variant = variant;
         }
 
         #endregion
@@ -21,6 +22,12 @@ namespace CookingLib.ReportData
         #region Properties
 
         public Recipe Recipe
+        {
+            get;
+            private set;
+        }
+
+        public RecipeVariant Variant
         {
             get;
             private set;

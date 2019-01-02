@@ -95,6 +95,18 @@ namespace CookingBook.Controls
 
         #endregion
 
+        #region Properties
+
+        public RecipeVariantViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as RecipeVariantViewModel;
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         public void CreateIngredientViews()

@@ -1,4 +1,5 @@
-﻿using CookingLib.ReportData;
+﻿using CookingLib.Objects;
+using CookingLib.ReportData;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,17 @@ namespace Reporter
             SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
             InitializeComponent();
 
-            _reportData = new ReportData(new CookingLib.Objects.Recipe()
+            var recipe = new Recipe()
             {
-                Name = "TEST"
-            });
+                Name = "Rezept"
+            };
+
+            var variant = new RecipeVariant()
+            {
+                Name = "Variante"
+            };
+
+            _reportData = new ReportData(recipe, variant);
         }
 
         public ReportForm(ReportData reportData)

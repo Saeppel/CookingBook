@@ -12,5 +12,8 @@
             <Setter Property="CanUserAddRows" Value="False" />
             <Setter Property="CanUserSortColumns" Value="False" />
         </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="WhiteSmoke" />
+        </Style>
     </Application.Resources>
 </Application>

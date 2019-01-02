@@ -13,7 +13,7 @@ namespace CookingBook.Helper
     {
         private static IReportCaller _reportCaller = new Reporter.Reporter();
 
-        public static void CallReport(Recipe recipe)
+        public static void CallReport(ReportData recipe)
         {
             _reportCaller.ShowReport(recipe);
         }

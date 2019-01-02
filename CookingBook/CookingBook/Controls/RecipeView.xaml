@@ -92,13 +92,13 @@
                   Width="250"
                   VerticalAlignment="Top"
                   DisplayMemberPath="Name"
-                  SelectedValuePath="ID"
                   ItemsSource="{Binding Categories,
                                         Mode=OneWay,
                                         UpdateSourceTrigger=PropertyChanged}"
                   SelectedValue="{Binding SelectedRecipe.CategoryID,
-                                         Mode=TwoWay,
-                                         UpdateSourceTrigger=PropertyChanged}" />
+                                          Mode=TwoWay,
+                                          UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValuePath="ID" />
 
         <TabControl x:Name="variantTabControl"
                     Grid.Row="4"
@@ -147,15 +147,21 @@
                 Grid.Row="6"
                 Grid.Column="0"
                 Width="90"
-                Background="WhiteSmoke"
                 Click="btSave_Click"
                 Content="Übernehmen" />
+
+        <Button x:Name="btPrint"
+                Grid.Row="6"
+                Grid.Column="1"
+                Width="100"
+                Click="BtPrint_Click"
+                Content="Druckansicht" />
 
         <Button x:Name="btNewVariant"
                 Grid.Row="6"
                 Grid.Column="1"
                 Width="100"
-                Background="WhiteSmoke"
+                Margin="120,5,0,0"
                 Click="btNewVariant_Click"
                 Content="Variante anlegen" />
 
@@ -163,8 +169,7 @@
                 Grid.Row="6"
                 Grid.Column="1"
                 Width="100"
-                Margin="120,5,0,0"
-                Background="WhiteSmoke"
+                Margin="240,5,0,0"
                 Click="btRemoveVariant_Click"
                 Content="Variante löschen" />
     </Grid>

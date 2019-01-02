@@ -1,14 +1,9 @@
-﻿using CookingLib.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CookingLib.ReportData;
 
 namespace CookingLib.Interfaces
 {
     public interface IReportCaller
     {
-        void ShowReport(Recipe recipe);
+        void ShowReport(ReportData.ReportData recipe);
     }
 }
