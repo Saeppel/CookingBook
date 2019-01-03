@@ -194,6 +194,8 @@
                 <Grid>
                     <TextBox Margin="5"
                              HorizontalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Visible"
                              VerticalAlignment="Stretch"
                              Text="{Binding Variant.Preparation,
                                             Mode=TwoWay,
