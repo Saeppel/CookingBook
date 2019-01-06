@@ -154,36 +154,51 @@ namespace CookingBook.Controls
         {
             var model = DataContext as RecipeVariantViewModel;
 
-            if (model != null)
+            if (model != null && model.Variant != null)
             {
-                if (model.Variant != null)
+                var group = new IngredientGroup()
                 {
-                    var group = new IngredientGroup()
-                    {
-                        Name = $"Gruppe {model.Variant.IngredientGroups.Count + 1}"
-                    };
+                    Name = $"Gruppe {model.Variant.IngredientGroups.Count + 1}"
+                };
 
-                    var view = new IngredientView();
-                    var viewModel = new IngredientGroupViewModel()
-                    {
-                        Variant = model.Variant,
-                        Group = group,
-                    };
+                var view = new IngredientView();
+                var viewModel = new IngredientGroupViewModel()
+                {
+                    Variant = model.Variant,
+                    Group = group,
+                };
 
-                    model.Variant.IngredientGroups.Add(group);
+                model.Variant.IngredientGroups.Add(group);
 
-                    view.DataContext = viewModel;
+                view.DataContext = viewModel;
 
-                    var tabItem = new TabItem();
-                    var binding = new Binding("Name");
-                    binding.Source = group;
-                    BindingOperations.SetBinding(tabItem, TabItem.HeaderProperty, binding);
+                var tabItem = new TabItem();
+                var binding = new Binding("Name");
+                binding.Source = group;
+                BindingOperations.SetBinding(tabItem, TabItem.HeaderProperty, binding);
 
-                    tabItem.Content = view;
+                tabItem.Content = view;
 
-                    ingredientTabControl.Items.Add(tabItem);
+                ingredientTabControl.Items.Add(tabItem);
 
-                    ingredientTabControl.SelectedItem = ingredientTabControl.Items[ingredientTabControl.Items.Count - 1];
+                ingredientTabControl.SelectedItem = ingredientTabControl.Items[ingredientTabControl.Items.Count - 1];
+            }
+        }
+
+        private void BtDeleteGroup_Click(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as RecipeVariantViewModel;
+
+            if (model != null && model.Variant != null && ingredientTabControl.SelectedItem != null)
+            {
+                var view = ((TabItem)ingredientTabControl.SelectedItem).Content as IngredientView;
+
+                if (view != null && view.ViewModel != null)
+                {
+                    var group = view.ViewModel.Group;
+
+                    model.Variant.RemoveIngredientGroup(group);
+                    ingredientTabControl.Items.Remove(ingredientTabControl.SelectedItem);
                 }
             }
         }

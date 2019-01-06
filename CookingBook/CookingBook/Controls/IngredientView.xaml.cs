@@ -27,6 +27,18 @@ namespace CookingBook.Controls
             InitializeComponent();
         }
 
+        #region Properties
+
+        public IngredientGroupViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as IngredientGroupViewModel;
+            }
+        }
+
+        #endregion
+
         #region Ingredienants
 
         private void menuAddIngredient_Click(object sender, RoutedEventArgs e)

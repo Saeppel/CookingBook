@@ -1,4 +1,6 @@
-﻿using CookingLib.Objects;
+﻿using CookingLib.Helper;
+using CookingLib.Objects;
+using System.Collections.Generic;
 
 namespace CookingBook.ViewModels
 {
@@ -6,7 +8,7 @@ namespace CookingBook.ViewModels
     {
         public RecipeVariantViewModel()
         {
-
+            OvenSettings = OvenHelper.Instance.OvenSettings;
         }
 
         #region Properties
@@ -52,6 +54,20 @@ namespace CookingBook.ViewModels
             }
         }
         private Utility _selectedUtility;
+
+        public List<OvenSetting> OvenSettings
+        {
+            get
+            {
+                return _ovenSettings;
+            }
+            set
+            {
+                _ovenSettings = value;
+                OnPropertyChanged("OvenSettings");
+            }
+        }
+        private List<OvenSetting> _ovenSettings;
 
         #endregion
     }

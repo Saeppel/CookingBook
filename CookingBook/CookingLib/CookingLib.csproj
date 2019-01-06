@@ -46,12 +46,14 @@
     <Compile Include="Container\RecipeContainer.cs" />
     <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\FTPHelper.cs" />
+    <Compile Include="Helper\OvenHelper.cs" />
     <Compile Include="Interfaces\IReportCaller.cs" />
     <Compile Include="Objects\Category.cs" />
     <Compile Include="Objects\HashTag.cs" />
     <Compile Include="Objects\Ingredient.cs" />
     <Compile Include="Objects\IngredientGroup.cs" />
     <Compile Include="Objects\ObjectBase.cs" />
+    <Compile Include="Objects\OvenSetting.cs" />
     <Compile Include="Objects\Recipe.cs" />
     <Compile Include="Objects\RecipeVariant.cs" />
     <Compile Include="Objects\Utility.cs" />

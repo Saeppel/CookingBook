@@ -129,6 +129,36 @@ namespace CookingLib.Objects
         }
         private int _temperature;
 
+        [XmlElement("PortionAmount")]
+        public int PortionAmount
+        {
+            get
+            {
+                return _portionAmount;
+            }
+            set
+            {
+                _portionAmount = value;
+                OnPropertyChanged("PortionAmount");
+            }
+        }
+        private int _portionAmount;
+
+        [XmlElement("OvenSettingID")]
+        public long OvenSettingID
+        {
+            get
+            {
+                return _ovenSettingID;
+            }
+            set
+            {
+                _ovenSettingID = value;
+                OnPropertyChanged("OvenSettingID");
+            }
+        }
+        private long _ovenSettingID;
+
         [XmlArray(ElementName = "IngredientGroups")]
         [XmlArrayItem("IngredientGroup", Type = typeof(IngredientGroup))]
         public ObservableCollection<IngredientGroup> IngredientGroups

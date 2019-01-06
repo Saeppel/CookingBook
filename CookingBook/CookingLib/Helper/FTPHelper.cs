@@ -67,7 +67,7 @@ namespace CookingLib.Helper
                 if (validLogin)
                 {
                     _instance = new FTPHelper(user, password);
-                    _instance.CreateDirectories();
+                    //_instance.CreateDirectories();
                 }
             }
         }

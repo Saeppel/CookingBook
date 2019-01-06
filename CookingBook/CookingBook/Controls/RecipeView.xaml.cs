@@ -231,15 +231,13 @@ namespace CookingBook.Controls
 
             if (model != null && variantTabControl.SelectedItem != null)
             {
-                var tab = ((TabItem)variantTabControl.SelectedItem);
+                var tab = (TabItem)variantTabControl.SelectedItem;
 
-                var name = tab.Header.ToString();
+                var view = tab.Content as RecipeDetailView;
 
-                var variant = model.SelectedRecipe.Variants.LastOrDefault(x => string.Format("Variante - {0}", x.Name) == name);
-
-                if (variant != null)
+                if (view != null && view.ViewModel != null)
                 {
-                    model.SelectedRecipe.Variants.Remove(variant);
+                    model.SelectedRecipe.Variants.Remove(view.ViewModel.Variant);
                     variantTabControl.Items.Remove(tab);
                 }
             }
