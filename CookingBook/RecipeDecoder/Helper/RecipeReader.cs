@@ -12,20 +12,17 @@ namespace RecipeDecoder.Helper
     {
         private const string _RECIPE = "Zutaten:";
         private const string _WORKING = "Zubereitung:";
+        private const string _PREPARING = "Vorbereitungszeit:";
+        private const string _RESTING = "Ruhezeit:";
+        private const string _BACKING = "Backzeit:";
+        private const string _TEMPERATURE = "Temperatur:";
 
-        public RecipeReader(string path)
+        public RecipeReader()
         {
-            Path = path;
             Recipes = new List<Recipe>();
         }
 
         #region Properties
-
-        public string Path
-        {
-            get;
-            private set;
-        }
 
         public List<Recipe> Recipes
         {
@@ -37,11 +34,11 @@ namespace RecipeDecoder.Helper
 
         #region Methods
 
-        public void Read()
+        public void Read(string file)
         {
             try
             {
-                StreamReader reader = new StreamReader(Path, Encoding.UTF8);
+                StreamReader reader = new StreamReader(file, Encoding.Default);
 
                 List<string> lastLines = new List<string>();
 
@@ -53,6 +50,7 @@ namespace RecipeDecoder.Helper
                 var workingMode = false;
 
                 var workingCounter = -1;
+                var ingredientCounter = 0;
 
                 while (!reader.EndOfStream)
                 {
@@ -69,9 +67,10 @@ namespace RecipeDecoder.Helper
 
                     lastLines.Add(line);
 
-                    if ((recipeMode 
+                    if ((recipeMode
                         || workingMode)
-                        && line == string.Empty)
+                        && (line.StartsWith(_RECIPE)
+                           || line.StartsWith(_WORKING)))
                     {
                         recipeMode = false;
                         workingMode = false;
@@ -109,16 +108,65 @@ namespace RecipeDecoder.Helper
                     }
                     else if (recipeMode)
                     {
-                        var ingredients = ParseIngredient(line);
-
-                        foreach (var ingredient in ingredients)
+                        if (line.StartsWith(_PREPARING))
                         {
-                            currentGroup.AddIngredient(ingredient);
+                            var prep = line.Replace(_PREPARING, string.Empty).Trim();
+                            if (int.TryParse(prep, out int prepTime))
+                            {
+                                currentVariant.PreparingTime = prepTime;
+                            }
+                        }
+                        else if (line.StartsWith(_RESTING))
+                        {
+                            var rest = line.Replace(_RESTING, string.Empty).Trim();
+                            if (int.TryParse(rest, out int restTime))
+                            {
+                                currentVariant.PreparingTime = restTime;
+                            }
+                        }
+                        else if (line.StartsWith(_BACKING))
+                        {
+                            var back = line.Replace(_BACKING, string.Empty).Trim();
+                            if (int.TryParse(back, out int backTime))
+                            {
+                                currentVariant.PreparingTime = backTime;
+                            }
+                        }
+                        else if (line.StartsWith(_TEMPERATURE))
+                        {
+                            var temp = line.Replace(_TEMPERATURE, string.Empty).Trim();
+                            if (int.TryParse(temp, out int temperature))
+                            {
+                                currentVariant.PreparingTime = temperature;
+                            }
+                        }
+                        else
+                        {
+                            ingredientCounter++;
+                            if (ingredientCounter == 2)
+                            {
+                                var unit = lastLines[2];
+                                var ingr = lastLines[3];
+
+                                line = $"{unit} {ingr}";
+
+                                if (line.Trim() != string.Empty)
+                                {
+                                    var ingredients = ParseIngredient(line);
+
+                                    foreach (var ingredient in ingredients)
+                                    {
+                                        currentGroup.AddIngredient(ingredient);
+                                    }
+                                }
+
+                                ingredientCounter = 0;
+                            }
                         }
                     }
                     else if (workingMode)
                     {
-                        line = line.Replace(" ", string.Empty);
+                        line = line.Replace("?", string.Empty);
                         currentVariant.Preparation += line + " ";
                     }
                 }

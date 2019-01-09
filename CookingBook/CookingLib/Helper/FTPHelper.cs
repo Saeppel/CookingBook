@@ -137,6 +137,8 @@ namespace CookingLib.Helper
 
                 reader.Close();
                 response.Close();
+                reader.Dispose();
+                response.Dispose();
 
                 WriteLocalFile(content, targetDirectory, targetFile);
             }

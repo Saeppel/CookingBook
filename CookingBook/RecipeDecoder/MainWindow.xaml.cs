@@ -1,6 +1,7 @@
 ﻿using RecipeDecoder.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,15 +29,42 @@ namespace RecipeDecoder
             InitializeComponent();
 
             _model = new MainViewModel();
-
-            _model.Path = @"E:\C#Programme\CookingBook\Docs\263-264.txt";
+            _model.Path = Environment.CurrentDirectory;
 
             DataContext = _model;
         }
 
-        private void BtOpen_Click(object sender, RoutedEventArgs e)
+        private void BtBrowse_Click(object sender, RoutedEventArgs e)
         {
-            _model.Read();
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.Yes
+                    || result == System.Windows.Forms.DialogResult.OK)
+                {
+                    _model.Path = dialog.SelectedPath;
+                }
+            }
+        }
+
+        private void BtRead_Click(object sender, RoutedEventArgs e)
+        {
+            var items = dtFiles.SelectedItems;
+            var files = new List<FileInfo>();
+
+            if (items != null && items.Count > 0)
+            {
+                foreach (var item in items)
+                {
+                    if (item is FileInfo)
+                    {
+                        files.Add(item as FileInfo);
+                    }
+                }
+
+                _model.Read(files);
+            }
         }
     }
 }

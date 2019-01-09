@@ -138,9 +138,13 @@
                                             Mode=TwoWay,
                                             UpdateSourceTrigger=PropertyChanged}"
                              TextAlignment="Right" />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="5"
-                               Text="Minuten" />
+                    <TextBox Grid.Row="2"
+                             Grid.Column="5"
+                             Width="100"
+                             Text="{Binding Variant.PortionUnit,
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            TargetNullValue=(Einheit)}" />
 
                     <TextBlock Grid.Row="3"
                                Grid.Column="0"
@@ -162,7 +166,7 @@
                     <ComboBox Grid.Row="3"
                               Grid.Column="4"
                               Grid.ColumnSpan="2"
-                              Width="160"
+                              Width="211"
                               DisplayMemberPath="Name"
                               ItemsSource="{Binding OvenSettings,
                                                     Mode=OneWay,
@@ -195,8 +199,8 @@
                             Grid.Row="1"
                             Width="100"
                             Margin="120,5,0,0"
-                            Click="BtDeleteGroup_Click"
                             HorizontalAlignment="Left"
+                            Click="BtDeleteGroup_Click"
                             Content="Gruppe löschen" />
                 </Grid>
             </TabItem>
