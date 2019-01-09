@@ -144,6 +144,21 @@ namespace CookingLib.Objects
         }
         private int _portionAmount;
 
+        [XmlElement("PortionUnit")]
+        public string PortionUnit
+        {
+            get
+            {
+                return _portionUnit;
+            }
+            set
+            {
+                _portionUnit = value;
+                OnPropertyChanged("PortionUnit");
+            }
+        }
+        private string _portionUnit;
+
         [XmlElement("OvenSettingID")]
         public long OvenSettingID
         {

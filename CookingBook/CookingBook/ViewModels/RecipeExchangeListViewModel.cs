@@ -16,6 +16,13 @@ namespace CookingBook.ViewModels
 
         public RecipeExchangeListViewModel()
         {
+            var categories = CategoryContainer.Instance.DownloadData();
+
+            foreach (var category in categories)
+            {
+                CategoryContainer.Instance.UpdateEntity(category);
+            }
+
             LocalRecipes = new ObservableCollection<Recipe>(RecipeContainer.Instance.Recipes);
             PublicRecipes = new ObservableCollection<Recipe>(RecipeContainer.Instance.DownloadData());
         }
