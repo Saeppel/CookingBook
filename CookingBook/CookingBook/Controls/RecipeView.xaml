@@ -51,6 +51,7 @@
                         <RowDefinition Height="25" />
                         <RowDefinition Height="25" />
                         <RowDefinition Height="25" />
+                        <RowDefinition Height="100" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="130" />
                         <RowDefinition Height="35" />
@@ -61,7 +62,7 @@
                                Text="Name" />
                     <TextBox Grid.Row="0"
                              Grid.Column="1"
-                             Width="250"
+                             Width="350"
                              VerticalAlignment="Top"
                              Text="{Binding SelectedRecipe.Name,
                                             Mode=TwoWay,
@@ -72,7 +73,7 @@
                                Text="Nummer" />
                     <TextBox Grid.Row="1"
                              Grid.Column="1"
-                             Width="250"
+                             Width="350"
                              VerticalAlignment="Top"
                              Text="{Binding SelectedRecipe.Number,
                                             Mode=TwoWay,
@@ -84,7 +85,7 @@
 
                     <TextBox Grid.Row="2"
                              Grid.Column="1"
-                             Width="250"
+                             Width="350"
                              VerticalAlignment="Top"
                              Text="{Binding SelectedRecipe.Description,
                                             Mode=TwoWay,
@@ -96,7 +97,7 @@
 
                     <ComboBox Grid.Row="3"
                               Grid.Column="1"
-                              Width="250"
+                              Width="350"
                               VerticalAlignment="Top"
                               DisplayMemberPath="Name"
                               ItemsSource="{Binding Categories,
@@ -106,6 +107,21 @@
                                                       Mode=TwoWay,
                                                       UpdateSourceTrigger=PropertyChanged}"
                               SelectedValuePath="ID" />
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="Info" />
+                    <TextBox Grid.Row="4"
+                             Grid.Column="1"
+                             Width="350"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             Text="{Binding SelectedRecipe.InfoText,
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="WrapWithOverflow"
+                             VerticalScrollBarVisibility="Visible" />
 
                 </Grid>
             </TabItem>

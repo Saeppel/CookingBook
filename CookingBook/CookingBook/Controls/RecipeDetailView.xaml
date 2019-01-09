@@ -48,6 +48,7 @@
                         <RowDefinition Height="25" />
                         <RowDefinition Height="25" />
                         <RowDefinition Height="25" />
+                        <RowDefinition Height="100" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -171,6 +172,22 @@
                                                       Mode=TwoWay,
                                                       UpdateSourceTrigger=PropertyChanged}"
                               SelectedValuePath="ID" />
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="Info" />
+                    <TextBox Grid.Row="4"
+                             Grid.Column="1"
+                             Grid.ColumnSpan="5"
+                             Margin="5,0,55,0"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             Text="{Binding Variant.InfoText,
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="WrapWithOverflow"
+                             VerticalScrollBarVisibility="Visible" />
                 </Grid>
             </TabItem>
             <TabItem Header="Zutatengruppen">
@@ -195,8 +212,8 @@
                             Grid.Row="1"
                             Width="100"
                             Margin="120,5,0,0"
-                            Click="BtDeleteGroup_Click"
                             HorizontalAlignment="Left"
+                            Click="BtDeleteGroup_Click"
                             Content="Gruppe löschen" />
                 </Grid>
             </TabItem>

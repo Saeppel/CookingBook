@@ -81,6 +81,21 @@ namespace CookingLib.Objects
         }
         private long _categoryID;
 
+        [XmlElement("InfoText")]
+        public string InfoText
+        {
+            get
+            {
+                return _infoText;
+            }
+            set
+            {
+                _infoText = value;
+                OnPropertyChanged("InfoText");
+            }
+        }
+        private string _infoText;
+
         [XmlArray(ElementName = "Variants")]
         [XmlArrayItem("Variant", Type = typeof(RecipeVariant))]
         public ObservableCollection<RecipeVariant> Variants

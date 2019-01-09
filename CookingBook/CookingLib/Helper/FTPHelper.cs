@@ -336,7 +336,7 @@ namespace CookingLib.Helper
                 ftpWebRequest.Method = request;
                 ftpWebRequest.Proxy = null;
                 ftpWebRequest.KeepAlive = false;
-                ftpWebRequest.UsePassive = false;
+                ftpWebRequest.UsePassive = true;
                 response = ftpWebRequest.GetResponse();
             }
             catch (Exception ex)

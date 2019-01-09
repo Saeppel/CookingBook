@@ -159,6 +159,21 @@ namespace CookingLib.Objects
         }
         private long _ovenSettingID;
 
+        [XmlElement("InfoText")]
+        public string InfoText
+        {
+            get
+            {
+                return _infoText;
+            }
+            set
+            {
+                _infoText = value;
+                OnPropertyChanged("InfoText");
+            }
+        }
+        private string _infoText;
+
         [XmlArray(ElementName = "IngredientGroups")]
         [XmlArrayItem("IngredientGroup", Type = typeof(IngredientGroup))]
         public ObservableCollection<IngredientGroup> IngredientGroups
