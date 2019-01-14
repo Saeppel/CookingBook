@@ -309,7 +309,7 @@ namespace CookingLib.Helper
 
             try
             {
-                var request = SendWebRequest(_address, WebRequestMethods.Ftp.ListDirectory, user, password);
+                var request = SendWebRequest(_address, WebRequestMethods.Ftp.ListDirectory, user, password, true);
 
                 success = request != null;
             }
@@ -321,12 +321,13 @@ namespace CookingLib.Helper
             return success;
         }
 
-        private static WebResponse SendWebRequest(string path, string request, string user = null, string password = null)
+        private static WebResponse SendWebRequest(string path, string request, string user = null, string password = null, bool usePassive = false)
         {
             WebResponse response = null;
 
             try
             {
+
                 var uri = new Uri(path);
 
                 user = user ?? _user;
@@ -338,7 +339,7 @@ namespace CookingLib.Helper
                 ftpWebRequest.Method = request;
                 ftpWebRequest.Proxy = null;
                 ftpWebRequest.KeepAlive = false;
-                ftpWebRequest.UsePassive = true;
+                ftpWebRequest.UsePassive = usePassive;
                 response = ftpWebRequest.GetResponse();
             }
             catch (Exception ex)

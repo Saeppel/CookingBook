@@ -87,8 +87,6 @@ namespace CookingLib.Container
 
         public void UpdateEntity(T entity)
         {
-            ObjectBase.Save(entity, entity.ID);
-
             if (_entities.Any(x => x.ID == entity.ID))
             {
                 var update = GetEntity(entity.ID);
@@ -126,14 +124,13 @@ namespace CookingLib.Container
             {
                 var directory = new DirectoryInfo(Path.Combine(System.Environment.CurrentDirectory, typeof(T).Name));
 
-                if (ids != null)
-                {
-                    var files = directory.GetFiles("*srf").Where(x => ids.Any(id => x.Name.Contains(id.ToString()))).ToList();
+                var files = directory.GetFiles("*srf").Where(x => ids == null 
+                                                                  ||ids.Any(id => x.Name.Contains(id.ToString())))
+                                                      .ToList();
 
-                    foreach (var file in files)
-                    {
-                        FTPHelper.Instance.UploadFile(file.FullName, typeof(T).Name, file.Name);
-                    }
+                foreach (var file in files)
+                {
+                    FTPHelper.Instance.UploadFile(file.FullName, typeof(T).Name, file.Name);
                 }
             }
         }
